@@ -12,6 +12,7 @@ To use, wire up the DFPlayer Mini MP3 breakout module following this loom...
     * RX Pin (immediately below VCC)      => GPIO0 (NodeMCU D3)
     * Busy Pin (immediately opposite VCC) => GPIO2 (NodeMCU D4)
     * SPK1+SPK2 to a 3W speaker (limiting the volume to 0.5 can help prevent brownout for larger wattage speakers)
+    * ...or...
     * DAC_R+DAC_L to a 3.5mm Line Out Jack
 
 The following example code uses the ScanPlayer. 
