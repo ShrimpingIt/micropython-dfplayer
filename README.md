@@ -24,7 +24,7 @@ It considers only folders named 00-09.
 It will play a single track from each folder in turn, only repeating a folder 
 when all folders are exhausted, and only repeating a track when all tracks have been exhausted. 
 
-```
+```python
 from time import sleep
 import scanplayer
 player = scanplayer.ScanPlayer()
