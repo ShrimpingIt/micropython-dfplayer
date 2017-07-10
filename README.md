@@ -4,6 +4,8 @@ Micropython implementation of DFPlayer control using UART 1 (secondary Serial co
 
 To use, wire up the DFPlayer Mini MP3 breakout module following this loom...
 
+![alt text](550px-Miniplayer_pin_map.png)
+
 * DFPlayer Mini
     * VCC           => 5V Vin
     * All GND pins  => GND
