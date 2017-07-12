@@ -9,8 +9,8 @@ To use, wire up the DFPlayer Mini MP3 breakout module following this loom...
 * DFPlayer Mini
     * VCC           => 5V Vin
     * All GND pins  => GND
-    * RX Pin (immediately below VCC)      => GPIO0 (NodeMCU D3)
-    * Busy Pin (immediately opposite VCC) => GPIO2 (NodeMCU D4)
+    * Busy Pin (immediately opposite VCC) => GPIO2 (NodeMCU D3)
+    * RX Pin (immediately below VCC)      => GPIO0 (NodeMCU D4)
     * SPK1+SPK2 to a 3W speaker (limiting the volume to 0.5 can help prevent brownout for larger wattage speakers)
     * ...or...
     * DAC_R+DAC_L to a 3.5mm Line Out Jack
@@ -29,13 +29,16 @@ from time import sleep
 import scanplayer
 player = scanplayer.ScanPlayer()
 availableFolders = list(player.tracks.keys())
-keyPos = 0
-while True:
-    folder = availableFolders[keyPos]
-    player.playFolder(folder)
-    while player.playing():
-        sleep(0.1)
-    keyPos = (keyPos + 1) %  len(availableFolders)
+if len(availableFolders) > 0:
+    keyPos = 0
+    while True:
+        folder = availableFolders[keyPos]
+        player.playFolder(folder)
+        while player.playing():
+            sleep(0.1)
+        keyPos = (keyPos + 1) %  len(availableFolders)
+else:
+    print("No available tracks")
 ```
 
 
