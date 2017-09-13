@@ -8,7 +8,7 @@ Acknowledge = 0x00
 End_Byte = 0xEF
 
 # inherent delays in DFPlayer
-CONFIG_LATENCY = 500
+CONFIG_LATENCY = 1000
 PLAY_LATENCY =   500
 VOLUME_LATENCY = 500
 
@@ -58,10 +58,15 @@ class Player():
         #self.reset()
         self.command(0x3F, 0x00, 0x00)
 
-    def play(self, folderNum, fileNum):
+    def play(self, folderNum, trackNum):
         self.awaitconfig()
         self.playtime = ticks_ms()
-        self.command(0x0F,folderNum,fileNum)
+        self.command(0x0F, folderNum, trackNum)
+
+    def finish(self, folderNum, trackNum):
+        self.play(folderNum, trackNum)
+        while self.playing():
+            sleep_ms(50)
 
     def playing(self):
         if self.busy_pin is not None:
@@ -119,38 +124,12 @@ class Player():
         self.command(0x0C, 0x00, 0x00)
 
 def main():
-    from machine import Pin
     from time import sleep
-    from dfplayer import Dfplayer
-    player = Dfplayer(busy_pin=Pin(0))
-    #player.volume(0.5)
-    folder = 1
-    while True:
-        for track in range(2, 7):
-            print("Playing track {}".format(track))
-            player.play(folder,track)
+    player = Player(busy_pin=Pin(0))
+    player.volume(0.5)
+    player.awaitvolume()
+    for folder in range(0,3):
+        for track in range(0, 2):
+            player.play(folder, track)
             while player.playing():
                 sleep(0.01)
-
-"""
-from machine import Pin
-from time import sleep
-from dfplayer import *
-player = Player(busy_pin=Pin(0))
-player.volume(0.1)
-tracks = {}
-for folderNum in range(0,10):
-    for fileNum in range(0,256):
-        player.play(folderNum,fileNum)
-        if player.playing():
-            if not(folderNum in tracks):
-                tracks[folderNum] = []
-            tracks[folderNum].append(fileNum)
-            continue
-        else:
-            break
-print(tracks)
-player.volume(0.5)
-"""
-
-
