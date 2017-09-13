@@ -32,18 +32,35 @@ class ScanPlayer(Player):
                     break
         self.volume(0.5)
     
-    def playFolder(self, folderNum):
+    def playNext(self, folderNum, wrap=True):
         if self.tracks is not None:
             if folderNum in self.tracks:
                 files = self.tracks[folderNum]
                 if folderNum in self.recent:
                     fileNum = self.recent[folderNum]
-                    fileNum = (fileNum + 1) % len(files)    # increment with wraparound 
+                    fileNum = (fileNum + 1)
+                    if fileNum == len(files):
+                        if wrap:
+                            fileNum = fileNum % len(files) # increment with wraparound
+                        else:
+                            return False
                 else:
                     fileNum = 0
                 self.recent[folderNum] = fileNum
                 self.play(folderNum, fileNum)
+                return True
             else:
-                raise AssertionError("Scan found no {} folder".format(folderNum))
+                raise AssertionError("Scan found no '{}' folder".format(folderNum))
+        else:
+            raise AssertionError("No scan available, run player.scan() first.")
+
+    def finishAll(self, folderNum):
+        if self.tracks is not None:
+            if folderNum in self.tracks:
+                folderTracks = self.tracks[folderNum]
+                for trackNum in folderTracks:
+                    self.finish(folderNum, trackNum)
+            else:
+                raise AssertionError("Scan found no '{}' folder".format(folderNum))
         else:
             raise AssertionError("No scan available, run player.scan() first.")
