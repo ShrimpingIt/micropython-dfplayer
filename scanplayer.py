@@ -6,14 +6,15 @@ class ScanPlayer(Player):
     def __init__(self, folders=10, scan=True, *a, **k ):
         if 'busy_pin' not in k: 
             k['busy_pin'] = Pin(0) # configure D3/GPIO0 as default busy pin
-        super().__init__(*a, **k)
+        super().__init__(*a, **k) 
         if folders > 99:
             raise AssertionError("Max 99 folders (00-99)")
         self.folders = folders
         self.tracks = None
         self.recent = {}
         if scan:
-            self.scan()        
+            self.scan()
+        # TODO handle resetting volume after scan
     
     def scan(self):
         self.awaitconfig()
@@ -30,7 +31,7 @@ class ScanPlayer(Player):
                     continue
                 else:
                     break
-        self.volume(0.5)
+        self.volume(1.0) # TODO find principled way to set this, or remove volume control from scan
     
     def playNext(self, folderNum, wrap=True):
         if self.tracks is not None:
