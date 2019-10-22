@@ -1,6 +1,8 @@
 # micropython-dfplayer
 
-Micropython implementation of DFPlayer control using UART 1 (secondary Serial connection)
+Micropython implementation of DFPlayer control using UART 1 (secondary Serial connection) on ESP8266
+
+If you are not limited to ESP8266 (with its TX-only UART) you should consider using https://github.com/jczic/KT403A-MP3/blob/master/kt403A.py instead.
 
 To use, wire up the DFPlayer Mini MP3 breakout module following this loom...
 
